@@ -1,0 +1,17 @@
+pmOnFail: ignore
+
+minimumReleaseAgeExclude:
+  - '@next/*'
+  - next
+
+# Keep pnpm's store/cache inside the project so builds are self-contained.
+storeDir: .pnpm-store
+cacheDir: .pnpm-cache
+
+# Use a flat node_modules (no symlinks). Windows blocks symlink creation for
+# non-admin processes, and OpenNext's bundler recreates pnpm's symlink tree.
+nodeLinker: hoisted
+
+allowBuilds:
+  esbuild: true
+  workerd: true

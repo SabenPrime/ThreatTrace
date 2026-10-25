@@ -1,0 +1,41 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Custom entry that wraps the generated worker to add a scheduled handler.
+  "main": "worker.ts",
+  "name": "threattrace",
+  "compatibility_date": "2024-12-30",
+  "compatibility_flags": [
+    // Enables the Node.js APIs that Next.js server code relies on.
+    "nodejs_compat",
+    // Allows the worker to fetch the public RSS feeds.
+    "global_fetch_strictly_public",
+  ],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS",
+  },
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      // Must match the "name" field above.
+      "service": "threattrace",
+    },
+  ],
+  "triggers": {
+    // Refresh the aggregated feed every 5 minutes so isolates never serve a
+    // cold cache to a visitor.
+    "crons": ["*/5 * * * *"],
+  },
+  // Cached AI briefs. The refresh cron no longer calls Groq, so briefs are only
+  // generated when a visitor asks for one and live here for 30 days.
+  "kv_namespaces": [
+    {
+      "binding": "AI_BRIEFS",
+      "id": "dd94f0f91fbc4e59924369ba73ebf785",
+    },
+  ],
+  // NOTE: a `limits.subrequests` override was requested but Cloudflare rejects
+  // any `limits` block on the Free plan ("CPU limits are not supported for the
+  // Free plan"), so the default 50-subrequest ceiling still applies. A refresh
+  // now only fetches feeds, which stays far below it.
+}
