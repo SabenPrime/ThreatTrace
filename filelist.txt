@@ -1,4 +1,4 @@
-﻿.open-next
+.open-next
 .pnpm-cache
 .pnpm-store
 .wrangler
