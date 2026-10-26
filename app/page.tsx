@@ -4,6 +4,8 @@ import { Hero } from '@/components/hero'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 
+export const revalidate = 300
+
 // The homepage is fully static: it renders the shell instantly and the client
 // components load the feed from /api/news. No data is fetched at build time, so
 // the page can never get stuck on an old snapshot.
