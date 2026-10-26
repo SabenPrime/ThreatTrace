@@ -34,7 +34,7 @@ function readCache(): BlinkStore | null {
 }
 
 function seedStore(): BlinkStore {
-  return isValid(seed) ? (seed as BlinkStore) : { updatedAt: null, blinks: [] }
+  return isValid(seed) ? (seed as BlinkStore) : { updatedAt: null, blinks: [], lastRefresh: null }
 }
 
 function load(): BlinkStore {
@@ -114,8 +114,9 @@ async function runRefresh(): Promise<BlinkStore> {
     aiSummarized: false,
   }))
 
-  const store: BlinkStore = { updatedAt: new Date().toISOString(), blinks }
+  const store: BlinkStore = { updatedAt: new Date().toISOString(), blinks, lastRefresh: new Date().toISOString() }
   persist(store)
+  console.log(`[threattrace] Refreshed at ${store.lastRefresh}`)
   return store
 }
 
