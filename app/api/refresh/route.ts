@@ -21,5 +21,9 @@ async function handle() {
   }
 }
 
-export const GET = handle
+export const GET = async (request: Request) => {
+  console.log('Cron triggered at', new Date().toISOString())
+  return handle()
+}
+
 export const POST = handle
