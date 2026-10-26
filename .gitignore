@@ -19,4 +19,4 @@ node_modules
 .pnpm-state/
 .pnpm-cache/
 .DS_Store
-.aider*
+.env
